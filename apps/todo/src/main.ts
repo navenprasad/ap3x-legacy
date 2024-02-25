@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { TodoModule } from './todo.module.ts';
+import { TodoModule } from './todo.module';
 async function bootstrap() {
   const app = await NestFactory.create(TodoModule);
 

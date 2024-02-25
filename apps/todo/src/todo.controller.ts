@@ -9,4 +9,8 @@ export class TodoController {
   getHello(): string {
     return this.todoService.getHello();
   }
+  @Get('todo')
+  getTodoList() {
+    return this.todoService.getTodoList();
+  }
 }
