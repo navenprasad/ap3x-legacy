@@ -1,8 +1,18 @@
 import { NestFactory } from '@nestjs/core';
-import { TodoModule } from './todo.module';
-
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { TodoModule } from './todo.module.ts';
 async function bootstrap() {
   const app = await NestFactory.create(TodoModule);
+
+  const config = new DocumentBuilder()
+    .setTitle('ap3x')
+    .setDescription('The ap3x API description')
+    .setVersion('1.0')
+    .addTag('ap3x')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(3000);
 }
 bootstrap();
