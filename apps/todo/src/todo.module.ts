@@ -20,9 +20,9 @@ import {
     PrismaModule,
     KeycloakConnectModule.register({
       authServerUrl: 'http://localhost:8080', // Make sure the URL is correct
-      realm: 'myrealm',
-      clientId: 'myclient',
-      secret: 'DXVEwa7guEImEvtvgVuyHGrHnqar00bo',
+      realm: 'ap3x',
+      clientId: 'ap3x-client',
+      secret: 'ZdUie81I5DnsF1s0eU0K9cfQog2mf2Kf',
       policyEnforcement: PolicyEnforcementMode.PERMISSIVE,
       tokenValidation: TokenValidation.ONLINE,
     }),
