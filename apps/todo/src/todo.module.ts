@@ -5,6 +5,7 @@ import { TodoService } from './todo.service';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { HttpModule } from '@nestjs/axios';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   AuthGuard,
   KeycloakConnectModule,
@@ -20,42 +21,40 @@ import {
   imports: [
     HttpModule,
     PrismaModule,
-    KeycloakConnectModule.register({
-      authServerUrl: 'http://localhost:8080', // Make sure the URL is correct
-      realm: 'ap3x',
-      clientId: 'account',
-      secret: 'QBoSKr3GkfojR5XyifmukppifPEmblix',
-      policyEnforcement: PolicyEnforcementMode.PERMISSIVE,
-      tokenValidation: TokenValidation.ONLINE,
+    ConfigModule, // Import ConfigModule here
+    KeycloakConnectModule.registerAsync({
+      imports: [ConfigModule], // And here
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        // console.log('KC_URL:', configService.get('KC_URL')); // Log KC_URL
+        // console.log('KC_REALM:', configService.get('KC_REALM')); // Log KC_REALM
+        // console.log('KC_CLIENT_ID:', configService.get('KC_CLIENT_ID')); // Log KC_CLIENT_ID
+        // console.log('KC_CLIENT_SECRET:', configService.get('KC_CLIENT_SECRET')); // Log KC_SECRET
+
+        return {
+          authServerUrl: configService.get('KC_URL'), // Read from env
+          realm: configService.get('KC_REALM'), // Read from env
+          clientId: configService.get('KC_CLIENT_ID'), // Read from env
+          secret: configService.get('KC_CLIENT_SECRET'), // Read from env
+          policyEnforcement: PolicyEnforcementMode.PERMISSIVE,
+          tokenValidation: TokenValidation.ONLINE,
+        };
+      },
     }),
   ],
   controllers: [TodoController],
   providers: [
     TodoService,
     PrismaService,
-    // These are in order, see https://docs.nestjs.com/guards#binding-guards
-    // for more information
-    //
-    // This adds a global level authentication guard, you can also have it scoped
-    // if you like.
-    //
-    // Will return a 401 unauthorized when it is unable to
-    // verify the JWT token or Bearer header is missing.
+    ConfigService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-    // This adds a global level resource guard, which is permissive.
-    // Only controllers annotated with @Resource and methods with @Scopes
-    // are handled by this guard.
     {
       provide: APP_GUARD,
       useClass: ResourceGuard,
     },
-    // New in 1.1.0
-    // This adds a global level role guard, which is permissive.
-    // Used by `@Roles` decorator with the optional `@AllowAnyRole` decorator for allowing any
-    // specified role passed.
     {
       provide: APP_GUARD,
       useClass: RoleGuard,
