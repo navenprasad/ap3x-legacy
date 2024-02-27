@@ -10,6 +10,10 @@ services:
       - '8000:3000'
     environment:
       - DATABASE_URL=postgresql://yourdbuser:yourdbpassword@db:5432/yourdbname?schema=public
+      - KC_URL=http://keycloak:8080
+      - KC_REALM=ap3x
+      - KC_CLIENT_ID=account
+      - KC_CLIENT_SECRET=QBoSKr3GkfojR5XyifmukppifPEmblix
     depends_on:
       - db
 
