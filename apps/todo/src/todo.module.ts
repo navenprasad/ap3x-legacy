@@ -15,9 +15,13 @@ import {
   PolicyEnforcementMode,
   TokenValidation,
 } from 'nest-keycloak-connect';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // makes the ConfigService available across your app
+    }),
     HttpModule,
     PrismaModule,
     KeycloakConnectModule.register({

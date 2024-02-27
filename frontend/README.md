@@ -1,38 +1,22 @@
-# Welcome to Remix!
+# Remix + Shadcn-ui Starter
 
-- [Remix Docs](https://remix.run/docs)
+A simple Remix + Shadcn-ui starter with an optimistic dark-mode based on [@kentcdodds's](https://twitter.com/kentcdodds) [client-hints](https://github.com/epicweb-dev/client-hints/tree/main) library.
+
+## Why ?
+
+I often reached out to implementing my own optimistic dark-mode logic every-single time I setup Shadcn-ui library, hence wanted to make this into a reusable repo that I and others can use it to quickly bootstrap a Remix starter.
+
+## Screenshot
+
+
+<img width="1107" alt="Screenshot 2024-01-25 at 14 22 47" src="https://github.com/rajeshdavidbabu/remix-shadcn-starter/assets/15684795/4611ba00-be8f-48a9-9648-a59fb56249b6">
+
 
 ## Development
 
 From your terminal:
 
 ```sh
+npm install
 npm run dev
 ```
-
-This starts your app in development mode, rebuilding assets on file changes.
-
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
