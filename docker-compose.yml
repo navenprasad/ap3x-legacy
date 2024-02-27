@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
   todo-app:
-    image: todo-app-bun # Name of the image to be created
+    image: todo-app-bun
     build:
-      context: . # Root of the project
-      dockerfile: apps/todo/Dockerfile # Path to the Dockerfile from the context
+      context: .
+      dockerfile: apps/todo/Dockerfile
     ports:
-      - '8000:3000' # Map port 8000 on the host to port 3000 in the container
+      - '8000:3000'
     environment:
       - DATABASE_URL=postgresql://yourdbuser:yourdbpassword@db:5432/yourdbname?schema=public
     depends_on:
@@ -20,9 +20,43 @@ services:
       POSTGRES_USER: yourdbuser
       POSTGRES_PASSWORD: yourdbpassword
     ports:
-      - '5432:5432' # Optional: expose PostgreSQL port for local development
+      - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  keycloak-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: keycloakdb
+      POSTGRES_USER: keycloakuser
+      POSTGRES_PASSWORD: keycloakpassword
+    ports:
+      - '5433:5432'
+    volumes:
+      - keycloak-postgres-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8081:8080'
+
+  keycloak:
+    image: bitnami/keycloak:latest
+    environment:
+      - DB_VENDOR=POSTGRES
+      - DB_ADDR=keycloak-db
+      - DB_PORT=5432
+      - DB_DATABASE=keycloakdb
+      - DB_USER=keycloakuser
+      - DB_PASSWORD=keycloakpassword
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    depends_on:
+      - keycloak-db
+    ports:
+      - '8080:8080'
+
 volumes:
   postgres-data:
+  keycloak-postgres-data:

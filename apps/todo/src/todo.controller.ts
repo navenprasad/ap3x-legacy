@@ -9,18 +9,28 @@ import {
   Public,
 } from 'nest-keycloak-connect';
 import { AuthGuard } from 'nest-keycloak-connect';
+import { ApiBearerAuth } from '@nestjs/swagger';
+
 @Controller()
 @UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Get()
+  @Roles({ roles: ['view-profile'] })
   getHello(): string {
     return this.todoService.getHello();
   }
 
   @Get('todo')
+  @Public()
   getTodoList() {
     return this.todoService.getTodoList();
+  }
+  @Get('token')
+  @Public()
+  getUserToken() {
+    return this.todoService.getUserToken();
   }
 }

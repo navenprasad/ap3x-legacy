@@ -22,4 +22,3 @@ model TodoListItem {
   updatedAt DateTime @updatedAt
 }
 
-
