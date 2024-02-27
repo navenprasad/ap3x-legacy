@@ -4,6 +4,7 @@ import { TodoController } from './todo.controller';
 import { TodoService } from './todo.service';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
+import { HttpModule } from '@nestjs/axios';
 import {
   AuthGuard,
   KeycloakConnectModule,
@@ -17,12 +18,13 @@ import {
 
 @Module({
   imports: [
+    HttpModule,
     PrismaModule,
     KeycloakConnectModule.register({
       authServerUrl: 'http://localhost:8080', // Make sure the URL is correct
       realm: 'ap3x',
-      clientId: 'ap3x-client',
-      secret: 'ZdUie81I5DnsF1s0eU0K9cfQog2mf2Kf',
+      clientId: 'account',
+      secret: 'QBoSKr3GkfojR5XyifmukppifPEmblix',
       policyEnforcement: PolicyEnforcementMode.PERMISSIVE,
       tokenValidation: TokenValidation.ONLINE,
     }),
