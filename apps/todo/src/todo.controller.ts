@@ -28,9 +28,4 @@ export class TodoController {
   getTodoList() {
     return this.todoService.getTodoList();
   }
-  @Get('token')
-  @Public()
-  getUserToken() {
-    return this.todoService.getUserToken();
-  }
 }
