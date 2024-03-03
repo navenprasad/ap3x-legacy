@@ -16,6 +16,8 @@ services:
       - KC_CLIENT_SECRET=QBoSKr3GkfojR5XyifmukppifPEmblix
     depends_on:
       - db
+    labels:
+      kompose.service.type: LoadBalancer
 
   db:
     image: postgres:latest
